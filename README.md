@@ -2,7 +2,7 @@
 
 A high-fidelity, premium **Glassmorphism Component Library** built for modern web applications. Inspired by Apple's design language, Lucid UI focuses on sweeping refractions, animated gradients, and cinematic backdrop blurs to create deep, immersive user interfaces.
 
-![Lucid UI Preview](https://grainy-gradients.vercel.app/noise.svg) <!-- Placeholder for a real image if available -->
+![Lucid UI Preview](public/screenshots/uikit-preview.png)
 
 ## ✨ Key Features
 
@@ -31,7 +31,7 @@ A high-fidelity, premium **Glassmorphism Component Library** built for modern we
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/glassUI.git
+   git clone https://github.com/ItkalNagaratna/lucid-ui.git
    cd glassUI
    ```
 
