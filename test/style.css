@@ -1,0 +1,225 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+    /* Refined Primary Colors */
+    --emerald-signal-green: #00d992;
+    --voltagent-mint: #2fd6a1;
+    --accent-glow: rgba(0, 217, 146, 0.4);
+
+    /* Surface & Background */
+    --abyss-black: #050507;
+    --carbon-surface: #0d0d10;
+    --warm-charcoal: #2a2a2d;
+    --card-hover-border: #3d3a39;
+
+    /* Neutrals & Text */
+    --snow-white: #f8f9fa;
+    --pure-white: #ffffff;
+    --warm-parchment: #b8b3b0;
+    --steel-slate: #8b949e;
+    --muted-text: rgba(248, 249, 250, 0.6);
+
+    /* Typography */
+    --font-heading: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    /* Spacing & Borders */
+    --radius-sm: 6px;
+    --radius-md: 12px;
+    --radius-lg: 20px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-font-smoothing: antialiased;
+}
+
+body {
+    background-color: var(--abyss-black);
+    color: var(--snow-white);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+
+/* Typography Hierarchy */
+h1,
+h2,
+h3,
+h4 {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: var(--pure-white);
+}
+
+.hero-heading {
+    font-size: clamp(3rem, 10vw, 4.5rem);
+    line-height: 1.05;
+    margin-bottom: 1.5rem;
+}
+
+.section-heading {
+    font-size: clamp(2rem, 5vw, 3rem);
+    line-height: 1.1;
+    margin-bottom: 1.5rem;
+}
+
+.gradient-text {
+    background: linear-gradient(135deg, var(--pure-white) 0%, var(--voltagent-mint) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Layout System */
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+section {
+    padding: 120px 0;
+}
+
+/* UI Elements */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 28px;
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    cursor: pointer;
+}
+
+.btn-primary {
+    background: var(--emerald-signal-green);
+    color: var(--abyss-black);
+    box-shadow: 0 0 20px var(--accent-glow);
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 35px var(--accent-glow);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: var(--pure-white);
+    border: 1px solid var(--warm-charcoal);
+}
+
+.btn-secondary:hover {
+    background: var(--warm-charcoal);
+}
+
+.card {
+    background: var(--carbon-surface);
+    border: 1px solid var(--warm-charcoal);
+    border-radius: var(--radius-md);
+    padding: 32px;
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    border-color: var(--emerald-signal-green);
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+/* Grid Systems */
+.grid-3 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 32px;
+}
+
+/* Pricing Card */
+.pricing-card {
+    position: relative;
+    overflow: hidden;
+}
+
+.pricing-card.popular {
+    border-color: var(--emerald-signal-green);
+    background: linear-gradient(180deg, rgba(0, 217, 146, 0.05) 0%, rgba(13, 13, 16, 1) 100%);
+}
+
+.badge {
+    position: absolute;
+    top: 20px;
+    right: -30px;
+    background: var(--emerald-signal-green);
+    color: var(--abyss-black);
+    padding: 5px 40px;
+    transform: rotate(45deg);
+    font-size: 0.75rem;
+    font-weight: 800;
+}
+
+/* FAQ Accordion (Simple) */
+.faq-item {
+    border-bottom: 1px solid var(--warm-charcoal);
+    padding: 24px 0;
+}
+
+.faq-question {
+    font-weight: 700;
+    font-size: 1.25rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Marquee expansion */
+.marquee-container {
+    padding: 60px 0;
+    border-y: 1px solid var(--warm-charcoal);
+}
+
+.logo-item {
+    font-family: var(--font-heading);
+    font-weight: 900;
+    letter-spacing: -0.05em;
+}
+
+/* Animations */
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+.float-anim {
+    animation: float 4s ease-in-out infinite;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 24px;
+    }
+
+    section {
+        padding: 80px 0;
+    }
+
+    .hero-heading {
+        font-size: 2.5rem;
+    }
+}
