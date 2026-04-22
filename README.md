@@ -4,6 +4,16 @@ A high-fidelity, premium **Glassmorphism Component Library** built for modern we
 
 ![Lucid UI Preview](uikit-preview.png)
 
+## 🎨 Visual Experience
+
+### Component Library
+The central hub for all atomic elements and design tokens.
+![UIKit Interface](uikit-preview.png)
+
+### Cinematic Login
+A high-fidelity entry point with fluid motion and interactive glass effects.
+![Login Interface](login-preview.png)
+
 ## ✨ Key Features
 
 - **Premium Glassmorphism**: Optimized `backdrop-filter` and `saturate` combinations for a hyper-realistic glass effect.
