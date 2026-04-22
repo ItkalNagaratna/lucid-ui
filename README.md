@@ -2,7 +2,7 @@
 
 A high-fidelity, premium **Glassmorphism Component Library** built for modern web applications. Inspired by Apple's design language, Lucid UI focuses on sweeping refractions, animated gradients, and cinematic backdrop blurs to create deep, immersive user interfaces.
 
-![Lucid UI Preview](public/screenshots/uikit-preview.png)
+![Lucid UI Preview](uikit-preview.png)
 
 ## ✨ Key Features
 
