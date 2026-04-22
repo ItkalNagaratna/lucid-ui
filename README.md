@@ -1,5 +1,7 @@
 # 💧 Lucid UI
 
+[**✨ View Live Documentation →**](https://itkalnagaratna.github.io/lucid-ui/#/uikit)
+
 A high-fidelity, premium **Glassmorphism Component Library** built for modern web applications. Inspired by Apple's design language, Lucid UI focuses on sweeping refractions, animated gradients, and cinematic backdrop blurs to create deep, immersive user interfaces.
 
 ![Lucid UI Preview](uikit-preview.png)
