@@ -52,8 +52,8 @@ export function Alert({ type = 'info', title, message, dismissible = false, clas
                     style={{
                         background: c.bg,
                         border: `1px solid ${c.border}`,
-                        backdropFilter: 'blur(30px) saturate(200%)',
-                        WebkitBackdropFilter: 'blur(30px) saturate(200%)',
+                        backdropFilter: 'blur(calc(var(--glass-blur) * 0.4)) saturate(var(--glass-saturation))',
+                        WebkitBackdropFilter: 'blur(calc(var(--glass-blur) * 0.4)) saturate(var(--glass-saturation))',
                         boxShadow: `0 1px 0 rgba(255,255,255,0.18) inset, 0 4px 20px rgba(0,0,0,0.22), 0 0 30px ${c.glow}`,
                     }}>
                     {/* Gloss sheen */}

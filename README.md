@@ -6,19 +6,25 @@ A high-fidelity, premium **Glassmorphism Component Library** built for modern we
 
 ## ✨ Key Features
 
-- **Premium Glassmorphism**: Optimized `backdrop-filter` and `saturate` combinations for a hyper-realistic glass effect.
-- **Animated Gradients**: Dynamic "shimmering" card effects that react to interaction.
-- **Cinematic Light Leaks**: Ambient radial glows and orb animations that bring layouts to life.
-- **Component Library**: Includes Login Pages, Dashboards, Pricing Tables, Social Proof (Testimonials), and more.
-- **Fully Responsive**: Built with Tailwind CSS for seamless viewing across all device sizes.
-- **Interactivity**: Powered by Framer Motion for buttery-smooth entrance and hover animations.
+- **🎨 Real-time Theme Customizer**: Adjust glassmorphism parameters (blur, saturation, opacity), background colors, and design tokens in real-time with a floating palette panel.
+- **🔍 Intelligent Code Discovery**: A dual-system discovery UI including popover "View Code" prompts for atomic items and inline row logic for list-based components (Typography, Form Controls).
+- **💎 Premium Glassmorphism**: Optimized `backdrop-filter` and `saturate` combinations for a hyper-realistic glass effect across all layers.
+- **⚡ Performance First**: Zero-runtime CSS variables for theme customization and optimized Framer Motion orchestration for buttery-smooth 60fps animations.
+- **📦 Expanded Component Library**: 
+  - **Foundation**: Global Styles, Colors, Typography.
+  - **Inputs**: Shimmering focus states, animated labels, and icon integration.
+  - **Feedback**: Cinematic Spinners, Progress Bars, and Glass Alerts.
+  - **Data Display**: Status Badges, Profile Avatars, and Layered Cards.
+  - **Controls**: Animated Checkboxes and Toggles.
+- **🗺️ High-End Templates**: Production-ready layouts for Login Pages, Dashboards, Pricing, and more.
 
 ## 🛠️ Technology Stack
 
 - **Core**: [React](https://reactjs.org/) + [Vite](https://vitejs.dev/)
 - **Styling**: [Tailwind CSS](https://tailwindcss.com/)
 - **Animations**: [Framer Motion](https://www.framer.com/motion/)
-- **Icons**: [Lucide React](https://lucide.dev/) + Droplet Emoji Branding
+- **Icons**: [Lucide React](https://lucide.dev/)
+- **State**: React Context/State for real-time design tokens.
 
 ## 🚀 Getting Started
 
@@ -47,10 +53,10 @@ A high-fidelity, premium **Glassmorphism Component Library** built for modern we
 
 ## 📂 Project Structure
 
-- `src/components/ui/` - Atomic UI components (Buttons, Inputs, Cards, etc.)
-- `src/pages/UIKit.jsx` - The central documentation and showcase for the component library.
+- `src/components/ui/` - Atomic UI components (Buttons, Copyable, ProgressBar, etc.)
+- `src/pages/UIKit.jsx` - The central documentation and real-time showcase for the component library.
 - `src/pages/LoginPage.jsx` - A production-ready, cinematic login experience.
-- `src/index.css` - Global design tokens and glass-text utilities.
+- `src/index.css` - Global design tokens, animation keyframes, and glass-text utilities.
 
 ## 📄 License
 
@@ -58,4 +64,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Built with ❤️ by the Lucid UI Team.
+Built with ❤️ for the world of premium web design.

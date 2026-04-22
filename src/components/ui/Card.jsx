@@ -2,10 +2,10 @@ import { motion } from 'framer-motion'
 
 const VARIANTS = {
     default: {
-        background: 'rgba(255,255,255,0.045)',
-        border: '1px solid rgba(255,255,255,0.18)',
+        background: 'rgba(255,255,255,var(--glass-opacity))',
+        border: '1px solid rgba(255,255,255,var(--glass-border))',
         boxShadow: '0 20px 60px rgba(0,0,0,0.45), 0 6px 20px rgba(0,0,0,0.25), 0 2px 0 rgba(255,255,255,0.45) inset, 0 -1px 0 rgba(255,255,255,0.05) inset',
-        backdropFilter: 'blur(60px) saturate(200%)',
+        backdropFilter: 'blur(var(--glass-blur)) saturate(var(--glass-saturation))',
         highlight: true,
         hoverShadow: '0 28px 70px rgba(0,0,0,0.55), 0 8px 24px rgba(0,0,0,0.30), 0 2px 0 rgba(255,255,255,0.55) inset',
     },
@@ -13,15 +13,15 @@ const VARIANTS = {
         background: 'rgba(255,255,255,0.06)',
         border: '1px solid rgba(255,255,255,0.24)',
         boxShadow: '0 32px 80px rgba(0,0,0,0.55), 0 10px 30px rgba(0,0,0,0.30), 0 2px 0 rgba(255,255,255,0.58) inset, 0 -1px 0 rgba(255,255,255,0.06) inset',
-        backdropFilter: 'blur(80px) saturate(220%)',
+        backdropFilter: 'blur(calc(var(--glass-blur) * 1.2)) saturate(calc(var(--glass-saturation) * 1.1))',
         highlight: true,
         hoverShadow: '0 44px 100px rgba(0,0,0,0.65), 0 14px 36px rgba(0,0,0,0.35), 0 2px 0 rgba(255,255,255,0.65) inset',
     },
     flat: {
-        background: 'rgba(255,255,255,0.025)',
+        background: 'rgba(255,255,255,var(--glass-opacity))',
         border: '1px solid rgba(255,255,255,0.10)',
         boxShadow: '0 6px 20px rgba(0,0,0,0.25), 0 1px 0 rgba(255,255,255,0.20) inset',
-        backdropFilter: 'blur(30px) saturate(160%)',
+        backdropFilter: 'blur(var(--glass-blur)) saturate(var(--glass-saturation))',
         highlight: false,
         hoverShadow: '0 12px 32px rgba(0,0,0,0.32), 0 1px 0 rgba(255,255,255,0.30) inset',
     },

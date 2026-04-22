@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Mail, Lock, Search, User, Star, ArrowRight, Plus, Download, Trash2, Settings, Bell, Phone, Globe, CreditCard, MapPin, Calendar, Hash, AtSign, Eye, EyeOff, Key, Code2, Copy, Check, LogOut, Droplet } from 'lucide-react'
+import { Mail, Lock, Search, User, Star, ArrowRight, Plus, Download, Trash2, Settings, Bell, Phone, Globe, CreditCard, MapPin, Calendar, Hash, AtSign, Eye, EyeOff, Key, Code2, Copy, Check, LogOut, Droplet, Palette, Sparkles, X } from 'lucide-react'
 import { Button } from '../components/ui/Button'
 import { Input } from '../components/ui/Input'
 import { Badge } from '../components/ui/Badge'
@@ -20,7 +20,8 @@ import LoginPage from './LoginPage'
 const NAV = [
     {
         group: 'Foundation', items: [
-            { id: 'colors', label: 'Colors', icon: '🎨' },
+            { id: 'global-styles', label: 'Global Styles', icon: '🎨' },
+            { id: 'colors', label: 'Colors', icon: '🌈' },
             { id: 'typography', label: 'Typography', icon: 'Aa' },
         ]
     },
@@ -94,9 +95,9 @@ function TypographyItem({ label, cls, text }) {
                     <code className="text-[10px] font-mono px-2 py-1 rounded" style={{ color: 'rgba(130,195,255,0.7)', background: 'rgba(255,255,255,0.03)' }}>
                         .{cls.split(' ')[0]}
                     </code>
-                    <button onClick={() => setShowCode(!showCode)} className="flex items-center gap-1.5 px-2 py-1 text-xs rounded hover:bg-white/5 transition-colors cursor-pointer" style={{ color: showCode ? 'rgba(180,210,255,0.9)' : 'rgba(255,255,255,0.4)', background: showCode ? 'rgba(120,160,255,0.14)' : 'transparent' }}>
+                    <button onClick={() => setShowCode(!showCode)} className="flex items-center gap-1.5 px-2 py-1 text-[10px] font-bold uppercase tracking-wider rounded hover:bg-white/5 transition-colors cursor-pointer" style={{ color: showCode ? 'rgba(180,210,255,1)' : 'rgba(255,255,255,0.4)', background: showCode ? 'rgba(120,160,255,0.14)' : 'transparent' }}>
                         <Code2 className="w-3 h-3" />
-                        Code
+                        View Code
                     </button>
                 </div>
             </div>
@@ -164,8 +165,47 @@ function ColorSwatch({ c }) {
     )
 }
 
+// ─── Control Item — Row style for Form Controls ──────────────────────────
+function ControlItem({ code, children }) {
+    const [showCode, setShowCode] = useState(false)
+    return (
+        <div className="w-full border-b last:border-0" style={{ borderColor: 'rgba(255,255,255,0.06)' }}>
+            <div className="flex items-center justify-between gap-4 py-4 pr-1 group">
+                <div className="flex-1">{children}</div>
+                <button
+                    onClick={() => setShowCode(!showCode)}
+                    className="flex items-center gap-1.5 px-2.5 py-1.5 text-[10px] font-bold uppercase tracking-wider rounded-lg transition-all cursor-pointer opacity-40 group-hover:opacity-100"
+                    style={{
+                        background: showCode ? 'rgba(120,160,255,0.14)' : 'rgba(255,255,255,0.04)',
+                        color: showCode ? 'rgba(180,210,255,1)' : 'rgba(255,255,255,0.5)',
+                        border: showCode ? '1px solid rgba(130,170,255,0.3)' : '1px solid transparent'
+                    }}
+                >
+                    <Code2 className="w-3 h-3" />
+                    {showCode ? 'Hide' : 'Code'}
+                </button>
+            </div>
+            <AnimatePresence>
+                {showCode && (
+                    <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
+                        className="overflow-hidden mb-4"
+                    >
+                        <div className="rounded-xl overflow-hidden shadow-2xl border border-white/5">
+                            <CodeBlock code={code} />
+                        </div>
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div>
+    )
+}
+
 // ─── Demo card — preview + code toggle ───────────────────────────────
-function Demo({ title, children, dark = false, code }) {
+function Demo({ title, children, code, deps = [], dark = false }) {
     const [showCode, setShowCode] = useState(false)
     return (
         <motion.div
@@ -174,26 +214,37 @@ function Demo({ title, children, dark = false, code }) {
             viewport={{ once: true, margin: '-30px' }}
             transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
             className="rounded-xl"
-            style={{ border: '1px solid rgba(255,255,255,0.10)' }}
+            style={{ border: '1px solid rgba(255,255,255,0.10)', position: 'relative' }}
         >
             {/* Header */}
-            <div className="px-4 py-2 text-xs font-medium border-b flex items-center justify-between rounded-t-xl"
-                style={{ background: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.07)', color: 'rgba(255,255,255,0.4)' }}>
-                <span>{title}</span>
+            <div className="px-4 py-2 border-b flex items-center justify-between"
+                style={{ background: 'rgba(255,255,255,0.03)', borderColor: 'rgba(255,255,255,0.07)' }}>
+                <div className="flex items-center gap-3">
+                    <span className="text-xs font-medium" style={{ color: 'rgba(255,255,255,0.4)' }}>{title}</span>
+                    {deps.length > 0 && (
+                        <div className="flex gap-1.5">
+                            {deps.map(d => (
+                                <span key={d} className="px-1.5 py-0.5 rounded bg-white/5 border border-white/10 text-[9px] uppercase tracking-wider text-white/30 font-bold">
+                                    {d}
+                                </span>
+                            ))}
+                        </div>
+                    )}
+                </div>
                 {code && (
                     <motion.button
                         onClick={() => setShowCode(v => !v)}
-                        whileHover={{ scale: 1.06 }} whileTap={{ scale: 0.94 }}
-                        className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium cursor-pointer"
+                        whileHover={{ scale: 1.04 }} whileTap={{ scale: 0.96 }}
+                        className="flex items-center gap-2 px-3 py-1.5 rounded-lg text-[11px] font-bold uppercase tracking-wider cursor-pointer"
                         style={{
-                            background: showCode ? 'rgba(120,160,255,0.14)' : 'rgba(255,255,255,0.07)',
-                            border: `1px solid ${showCode ? 'rgba(130,170,255,0.35)' : 'rgba(255,255,255,0.12)'}`,
-                            color: showCode ? 'rgba(180,210,255,0.92)' : 'rgba(255,255,255,0.50)',
+                            background: showCode ? 'rgba(120,160,255,0.18)' : 'rgba(255,255,255,0.08)',
+                            border: `1px solid ${showCode ? 'rgba(130,170,255,0.45)' : 'rgba(255,255,255,0.12)'}`,
+                            color: showCode ? 'rgba(180,210,255,1)' : 'rgba(255,255,255,0.60)',
                             boxShadow: '0 1px 0 rgba(255,255,255,0.10) inset',
-                            transition: 'all 0.18s ease',
+                            transition: 'all 0.2s ease',
                         }}>
-                        <Code2 className="w-3 h-3" />
-                        {showCode ? 'Preview' : 'Code'}
+                        <Code2 className="w-3.5 h-3.5" />
+                        {showCode ? 'Back to Preview' : 'View Code'}
                     </motion.button>
                 )}
             </div>
@@ -227,8 +278,45 @@ function Demo({ title, children, dark = false, code }) {
 
 // ─── Code snippets per Demo ──────────────────────────────────────────────
 const S = {
+    globalStyles: `@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+/* Main Glass Card */
+.glass-card {
+  background: rgba(255, 255, 255, 0.04);
+  backdrop-filter: blur(80px) saturate(200%);
+  -webkit-backdrop-filter: blur(80px) saturate(200%);
+  border: 1px solid rgba(255, 255, 255, 0.20);
+  box-shadow:
+    0 48px 120px rgba(0, 0, 0, 0.55),
+    0 12px 40px rgba(0, 0, 0, 0.30),
+    0 2px 0 rgba(255, 255, 255, 0.55) inset,
+    0 -1px 0 rgba(255, 255, 255, 0.06) inset;
+}
+
+/* Glass Input */
+.glass-input {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.18) inset,
+    0 2px 8px rgba(0, 0, 0, 0.20);
+}
+
+/* Primary Button */
+.btn-primary {
+  background: linear-gradient(160deg, rgba(130, 160, 255, 0.45), rgba(160, 100, 255, 0.30));
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px rgba(100, 140, 255, 0.25), 0 2px 0 rgba(255, 255, 255, 0.50) inset;
+  backdrop-filter: blur(20px);
+}`,
     btnVariants:
-        `<Button variant="primary">Primary</Button>
+        `import { Button } from './components/ui/Button'
+
+<Button variant="primary">Primary</Button>
 <Button variant="secondary">Secondary</Button>
 <Button variant="ghost">Ghost</Button>
 <Button variant="danger">Danger</Button>
@@ -326,7 +414,7 @@ const S = {
   label="Username"
   icon={<AtSign className="w-4 h-4" />}
   success="Username is available!"
-  value="naksha"
+  value="johndoe"
   onChange={() => {}}
 />
 
@@ -407,11 +495,12 @@ const S = {
     controlsCheckboxes:
         `<Checkbox id="cb-a" label="Unchecked default" checked={false} />
 <Checkbox id="cb-b" label="Checked state" checked={true} />
+<Checkbox id="cb-c" label="Another option" checked={false} />
 <Checkbox id="cb-d" label="Disabled option" checked={false} disabled />`,
 
     controlsToggles:
         `<Toggle label="Notifications" checked={true} />
-<Toggle label="Dark mode" size="sm" checked={true} />
+<Toggle label="Dark mode" size="sm" checked={false} />
 <Toggle label="Auto-save" size="lg" checked={true} />
 <Toggle label="Disabled" checked={false} disabled />`,
 
@@ -649,6 +738,56 @@ export default function UIKit() {
     const [checkStates, setCheckStates] = useState({ a: false, b: true, c: false })
     const [toggleStates, setToggleStates] = useState({ notifications: true, darkMode: false, autoSave: true })
     const contentRef = useRef(null)
+    const [showCustomizer, setShowCustomizer] = useState(false)
+
+    // Theme Customizer State
+    const [theme, setTheme] = useState({
+        blur: 80,
+        saturation: 200,
+        opacity: 0.04,
+        border: 0.20,
+        bg: '#0a0a14',
+        bgEnd: '#0d0d1f',
+        grad: 'linear-gradient(135deg, #0a0a14 0%, #0d0d1f 60%, #0a0a18 100%)',
+        accent: 'linear-gradient(160deg, rgba(130, 160, 255, 0.45) 0%, rgba(160, 100, 255, 0.30) 100%)',
+        accentStart: '#82a0ff',
+        accentEnd: '#a064ff',
+        pattern: true
+    })
+
+    // Simple harmony: take custom color and make it brighter/saturated for accent
+    const getHarmonizedAccent = (hex) => {
+        // Simple heuristic: if it's very dark, make it a bright version of itself
+        // Mapping simple hues for a better "automatic" feel
+        return hex // For now, we allow the user to pick, but we can automate if needed
+    }
+
+    const updateBg = (hex) => {
+        // When BG changes, we can try to find a matching accent
+        // But the user might want full control. 
+        // Let's implement "Auto-Accent" by brightening the BG hex.
+        const brighten = (col, amt) => {
+            let num = parseInt(col.slice(1), 16);
+            let r = (num >> 16) + amt;
+            let g = ((num >> 8) & 0x00FF) + amt;
+            let b = (num & 0x0000FF) + amt;
+            r = Math.min(255, Math.max(0, r));
+            g = Math.min(255, Math.max(0, g));
+            b = Math.min(255, Math.max(0, b));
+            return "#" + (1 << 24 | r << 16 | g << 8 | b).toString(16).slice(1);
+        }
+        setTheme(prev => ({ ...prev, bg: hex, accent: brighten(hex, 100), grad: null }))
+    }
+
+    // Map theme to CSS variables
+    const themeStyles = {
+        '--glass-blur': `${theme.blur}px`,
+        '--glass-saturation': `${theme.saturation}%`,
+        '--glass-opacity': theme.opacity,
+        '--glass-border': theme.border,
+        '--accent-color': theme.accent,
+        background: theme.grad || `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bgEnd} 50%, #0a0a18 100%)`
+    }
 
     // Scroll spy
     useEffect(() => {
@@ -673,7 +812,7 @@ export default function UIKit() {
     }
 
     return (
-        <div className="flex h-screen overflow-hidden" style={{ background: 'linear-gradient(135deg, #0a0a14 0%, #0d0d1f 50%, #0a0a18 100%)' }}>
+        <div className={`flex h-screen overflow-hidden transition-colors duration-700 ${theme.pattern ? 'grain-overlay' : ''}`} style={themeStyles}>
 
             {/* ── Sidebar ── */}
             <aside className="w-60 flex-shrink-0 flex flex-col h-full overflow-y-auto"
@@ -742,6 +881,57 @@ export default function UIKit() {
 
                 {/* Content area */}
                 <div className="px-10 py-12 max-w-7xl mx-auto w-full">
+
+                    {/* ── GLOBAL STYLES ── */}
+                    <Section id="global-styles" title="Global Styles" description="The core CSS required for the Lucid UI glassmorphism effects and animations.">
+                        <CodeBlock code={`@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  /* Dynamic tokens from Theme Customizer */
+  --glass-blur: ${theme.blur}px;
+  --glass-saturation: ${theme.saturation}%;
+  --glass-opacity: ${theme.opacity};
+  --glass-border: ${theme.border};
+  --accent-color: ${theme.accent};
+  --bg-start: ${theme.bg};
+  --bg-end: ${theme.bgEnd};
+}
+
+/* Main Glass Card */
+.glass-card {
+  background: rgba(255, 255, 255, var(--glass-opacity));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  border: 1px solid rgba(255, 255, 255, var(--glass-border));
+  box-shadow:
+    0 48px 120px rgba(0, 0, 0, 0.55),
+    0 12px 40px rgba(0, 0, 0, 0.30),
+    /* Signature Liquid Glass specular highlight */
+    0 2px 0 rgba(255, 255, 255, 0.55) inset,
+    0 -1px 0 rgba(255, 255, 255, 0.06) inset;
+}
+
+/* Glass Input */
+.glass-input {
+  background: rgba(255, 255, 255, var(--glass-opacity));
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.18) inset,
+    0 2px 8px rgba(0, 0, 0, 0.20);
+}
+
+/* Primary Button */
+.btn-primary {
+  background: var(--accent-color);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px rgba(100, 140, 255, 0.25), 0 2px 0 rgba(255, 255, 255, 0.50) inset;
+  backdrop-filter: blur(20px);
+}`} lang="css" />
+                    </Section>
 
                     {/* ── COLORS ── */}
                     <Section id="colors" title="Colors" description="The complete glass UI color palette with semantic color tokens.">
@@ -840,60 +1030,32 @@ export default function UIKit() {
                             {/* Row 1: Common fields */}
                             <Demo title="Common fields" code={S.inputCommon}>
                                 <div className="grid grid-cols-2 gap-4 w-full">
-                                    <Copyable block code={`<Input id="i-email" label="Email address" type="email" placeholder="you@example.com" icon={<Mail className="w-4 h-4" />} />`}>
-                                        <Input id="i-email" label="Email address" type="email" placeholder="you@example.com" icon={<Mail className="w-4 h-4" />} />
-                                    </Copyable>
-                                    <Copyable block code={`<Input id="i-password" label="Password" type="password" placeholder="••••••••" icon={<Lock className="w-4 h-4" />} />`}>
-                                        <Input id="i-password" label="Password" type="password" placeholder="••••••••" icon={<Lock className="w-4 h-4" />} />
-                                    </Copyable>
-                                    <Copyable block code={`<Input id="i-search" label="Search" placeholder="Search anything..." icon={<Search className="w-4 h-4" />} />`}>
-                                        <Input id="i-search" label="Search" placeholder="Search anything..." icon={<Search className="w-4 h-4" />} />
-                                    </Copyable>
-                                    <Copyable block code={`<Input id="i-user" label="Username" placeholder="@handle" icon={<AtSign className="w-4 h-4" />} />`}>
-                                        <Input id="i-user" label="Username" placeholder="@handle" icon={<AtSign className="w-4 h-4" />} />
-                                    </Copyable>
+                                    <Input id="i-email" label="Email address" type="email" placeholder="you@example.com" icon={<Mail className="w-4 h-4" />} />
+                                    <Input id="i-password" label="Password" type="password" placeholder="••••••••" icon={<Lock className="w-4 h-4" />} />
+                                    <Input id="i-search" label="Search" placeholder="Search anything..." icon={<Search className="w-4 h-4" />} />
+                                    <Input id="i-user" label="Username" placeholder="@handle" icon={<AtSign className="w-4 h-4" />} />
                                 </div>
                             </Demo>
 
                             {/* Row 2: More icon types */}
                             <Demo title="More icons" code={S.inputMore}>
                                 <div className="grid grid-cols-2 gap-4 w-full">
-                                    <Copyable block code={`<Input id="i-phone" label="Phone number" type="tel" placeholder="+1 (555) 000-0000" icon={<Phone className="w-4 h-4" />} />`}>
-                                        <Input id="i-phone" label="Phone number" type="tel" placeholder="+1 (555) 000-0000" icon={<Phone className="w-4 h-4" />} />
-                                    </Copyable>
-                                    <Copyable block code={`<Input id="i-website" label="Website" type="url" placeholder="https://example.com" icon={<Globe className="w-4 h-4" />} />`}>
-                                        <Input id="i-website" label="Website" type="url" placeholder="https://example.com" icon={<Globe className="w-4 h-4" />} />
-                                    </Copyable>
-                                    <Copyable block code={`<Input id="i-card" label="Card number" placeholder="4242 4242 4242 4242" icon={<CreditCard className="w-4 h-4" />} />`}>
-                                        <Input id="i-card" label="Card number" placeholder="4242 4242 4242 4242" icon={<CreditCard className="w-4 h-4" />} />
-                                    </Copyable>
-                                    <Copyable block code={`<Input id="i-location" label="Location" placeholder="City, Country" icon={<MapPin className="w-4 h-4" />} />`}>
-                                        <Input id="i-location" label="Location" placeholder="City, Country" icon={<MapPin className="w-4 h-4" />} />
-                                    </Copyable>
-                                    <Copyable block code={`<Input id="i-date" label="Date" type="date" icon={<Calendar className="w-4 h-4" />} placeholder="Pick a date" />`}>
-                                        <Input id="i-date" label="Date" type="date" icon={<Calendar className="w-4 h-4" />} placeholder="Pick a date" />
-                                    </Copyable>
-                                    <Copyable block code={`<Input id="i-code" label="Promo code" placeholder="GLASS2026" icon={<Hash className="w-4 h-4" />} helperText="Enter a valid promo code" />`}>
-                                        <Input id="i-code" label="Promo code" placeholder="GLASS2026" icon={<Hash className="w-4 h-4" />} helperText="Enter a valid promo code" />
-                                    </Copyable>
+                                    <Input id="i-phone" label="Phone number" type="tel" placeholder="+1 (555) 000-0000" icon={<Phone className="w-4 h-4" />} />
+                                    <Input id="i-website" label="Website" type="url" placeholder="https://example.com" icon={<Globe className="w-4 h-4" />} />
+                                    <Input id="i-card" label="Card number" placeholder="4242 4242 4242 4242" icon={<CreditCard className="w-4 h-4" />} />
+                                    <Input id="i-location" label="Location" placeholder="City, Country" icon={<MapPin className="w-4 h-4" />} />
+                                    <Input id="i-date" label="Date" type="date" icon={<Calendar className="w-4 h-4" />} placeholder="Pick a date" />
+                                    <Input id="i-code" label="Promo code" placeholder="GLASS2026" icon={<Hash className="w-4 h-4" />} helperText="Enter a valid promo code" />
                                 </div>
                             </Demo>
 
                             {/* Row 3: States */}
                             <Demo title="States" code={S.inputStates}>
                                 <div className="grid grid-cols-2 gap-4 w-full">
-                                    <Copyable block code={`<Input id="i-err" label="Email" placeholder="name@example.com" icon={<Mail className="w-4 h-4" />} error="Invalid email format" value="wrong@@" />`}>
-                                        <Input id="i-err" label="Email" placeholder="name@example.com" icon={<Mail className="w-4 h-4" />} error="Invalid email format" value="wrong@@" onChange={() => { }} />
-                                    </Copyable>
-                                    <Copyable block code={`<Input id="i-ok" label="Username" placeholder="@handle" icon={<AtSign className="w-4 h-4" />} success="Username is available!" value="naksha" />`}>
-                                        <Input id="i-ok" label="Username" placeholder="@handle" icon={<AtSign className="w-4 h-4" />} success="Username is available!" value="naksha" onChange={() => { }} />
-                                    </Copyable>
-                                    <Copyable block code={`<Input id="i-disabled" label="API Key" placeholder="sk-live-xxxx" icon={<Key className="w-4 h-4" />} disabled value="sk-live-xxxxxxxxxxxx" />`}>
-                                        <Input id="i-disabled" label="API Key" placeholder="sk-live-xxxx" icon={<Key className="w-4 h-4" />} disabled value="sk-live-xxxxxxxxxxxx" />
-                                    </Copyable>
-                                    <Copyable block code={`<Input id="i-helper" label="Password" type="password" placeholder="Min 8 characters" icon={<Lock className="w-4 h-4" />} helperText="Use uppercase, numbers and symbols" />`}>
-                                        <Input id="i-helper" label="Password" type="password" placeholder="Min 8 characters" icon={<Lock className="w-4 h-4" />} helperText="Use uppercase, numbers and symbols" />
-                                    </Copyable>
+                                    <Input id="i-err" label="Email" placeholder="name@example.com" icon={<Mail className="w-4 h-4" />} error="Invalid email format" value="wrong@@" onChange={() => { }} />
+                                    <Input id="i-ok" label="Username" placeholder="@handle" icon={<AtSign className="w-4 h-4" />} success="Username is available!" value="johndoe" onChange={() => { }} />
+                                    <Input id="i-disabled" label="API Key" placeholder="sk-live-xxxx" icon={<Key className="w-4 h-4" />} disabled value="sk-live-xxxxxxxxxxxx" />
+                                    <Input id="i-helper" label="Password" type="password" placeholder="Min 8 characters" icon={<Lock className="w-4 h-4" />} helperText="Use uppercase, numbers and symbols" />
                                 </div>
                             </Demo>
 
@@ -937,7 +1099,7 @@ export default function UIKit() {
 
                     {/* ── CARDS ── */}
                     <Section id="cards" title="Cards" description="Four glass card variants for different content hierarchy levels.">
-                        <Demo title="Card variants" code={S.cards}>
+                        <Demo title="Card variants" code={S.cards} deps={['Card', 'Badge']}>
                             <div className="grid grid-cols-2 gap-4 w-full">
                                 {[
                                     { v: 'default', label: 'Default', desc: 'Standard glass card with backdrop blur and subtle border.' },
@@ -959,21 +1121,37 @@ export default function UIKit() {
 
                     {/* ── FORM CONTROLS ── */}
                     <Section id="controls" title="Form Controls" description="Checkbox and Toggle with animated transitions and accessible roles.">
-                        <div className="grid grid-cols-2 gap-4">
-                            <Demo title="Checkboxes" code={S.controlsCheckboxes}>
-                                <div className="flex flex-col gap-8 w-full py-4">
-                                    <Copyable code={`<Checkbox id="cb-a" label="Unchecked default" checked={false} />`}><Checkbox id="cb-a" label="Unchecked default" checked={checkStates.a} onChange={v => setCheckStates(s => ({ ...s, a: v }))} /></Copyable>
-                                    <Copyable code={`<Checkbox id="cb-b" label="Checked state" checked={true} />`}><Checkbox id="cb-b" label="Checked state" checked={checkStates.b} onChange={v => setCheckStates(s => ({ ...s, b: v }))} /></Copyable>
-                                    <Copyable code={`<Checkbox id="cb-c" label="Another option" checked={false} />`}><Checkbox id="cb-c" label="Another option" checked={checkStates.c} onChange={v => setCheckStates(s => ({ ...s, c: v }))} /></Copyable>
-                                    <Copyable code={`<Checkbox id="cb-d" label="Disabled option" checked={false} disabled />`}><Checkbox id="cb-d" label="Disabled option" checked={false} disabled /></Copyable>
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <Demo title="Checkboxes" code={S.controlsCheckboxes} deps={['Checkbox']}>
+                                <div className="flex flex-col w-full">
+                                    <ControlItem code={`<Checkbox id="cb-a" label="Unchecked default" checked={false} />`}>
+                                        <Checkbox id="cb-a" label="Unchecked default" checked={checkStates.a} onChange={v => setCheckStates(s => ({ ...s, a: v }))} />
+                                    </ControlItem>
+                                    <ControlItem code={`<Checkbox id="cb-b" label="Checked state" checked={true} />`}>
+                                        <Checkbox id="cb-b" label="Checked state" checked={checkStates.b} onChange={v => setCheckStates(s => ({ ...s, b: v }))} />
+                                    </ControlItem>
+                                    <ControlItem code={`<Checkbox id="cb-c" label="Another option" checked={false} />`}>
+                                        <Checkbox id="cb-c" label="Another option" checked={checkStates.c} onChange={v => setCheckStates(s => ({ ...s, c: v }))} />
+                                    </ControlItem>
+                                    <ControlItem code={`<Checkbox id="cb-d" label="Disabled option" checked={false} disabled />`}>
+                                        <Checkbox id="cb-d" label="Disabled option" checked={false} disabled />
+                                    </ControlItem>
                                 </div>
                             </Demo>
-                            <Demo title="Toggles" code={S.controlsToggles}>
-                                <div className="flex flex-col gap-10 w-full py-4">
-                                    <Copyable code={`<Toggle label="Notifications" checked={true} />`}><Toggle label="Notifications" checked={toggleStates.notifications} onChange={v => setToggleStates(s => ({ ...s, notifications: v }))} /></Copyable>
-                                    <Copyable code={`<Toggle label="Dark mode" size="sm" checked={true} />`}><Toggle label="Dark mode" size="sm" checked={toggleStates.darkMode} onChange={v => setToggleStates(s => ({ ...s, darkMode: v }))} /></Copyable>
-                                    <Copyable code={`<Toggle label="Auto-save" size="lg" checked={true} />`}><Toggle label="Auto-save" size="lg" checked={toggleStates.autoSave} onChange={v => setToggleStates(s => ({ ...s, autoSave: v }))} /></Copyable>
-                                    <Copyable code={`<Toggle label="Disabled" checked={false} disabled />`}><Toggle label="Disabled" checked={false} disabled /></Copyable>
+                            <Demo title="Toggles" code={S.controlsToggles} deps={['Toggle']}>
+                                <div className="flex flex-col w-full">
+                                    <ControlItem code={`<Toggle label="Notifications" checked={true} />`}>
+                                        <Toggle label="Notifications" checked={toggleStates.notifications} onChange={v => setToggleStates(s => ({ ...s, notifications: v }))} />
+                                    </ControlItem>
+                                    <ControlItem code={`<Toggle label="Dark mode" size="sm" checked={false} />`}>
+                                        <Toggle label="Dark mode" size="sm" checked={toggleStates.darkMode} onChange={v => setToggleStates(s => ({ ...s, darkMode: v }))} />
+                                    </ControlItem>
+                                    <ControlItem code={`<Toggle label="Auto-save" size="lg" checked={true} />`}>
+                                        <Toggle label="Auto-save" size="lg" checked={toggleStates.autoSave} onChange={v => setToggleStates(s => ({ ...s, autoSave: v }))} />
+                                    </ControlItem>
+                                    <ControlItem code={`<Toggle label="Disabled" checked={false} disabled />`}>
+                                        <Toggle label="Disabled" checked={false} disabled />
+                                    </ControlItem>
                                 </div>
                             </Demo>
                         </div>
@@ -1076,14 +1254,14 @@ export default function UIKit() {
 
                     {/* ── LOGIN FORM TEMPLATE ── */}
                     <Section id="login-form" title="Login Form" description="Full authentication form template — ready to use.">
-                        <Demo title="Full Page Preview" code={S.loginTemplate}>
+                        <Demo title="Full Page Preview" code={S.loginTemplate} deps={['Card', 'Button', 'Input', 'Checkbox']}>
                             <div className="flex items-center justify-center py-10 px-4 w-full rounded-b-xl"
-                                style={{ background: 'linear-gradient(135deg, #0a0a14 0%, #0d0d1f 100%)', minHeight: 400, position: 'relative', overflow: 'hidden' }}>
+                                style={{ background: theme.grad || `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bgEnd} 100%)`, minHeight: 400, position: 'relative', overflow: 'hidden' }}>
                                 {/* Mini orbs for context */}
                                 <div style={{ position: 'absolute', width: 300, height: 300, top: '-20%', left: '-5%', background: 'radial-gradient(circle, rgba(80,100,255,0.18) 0%, transparent 70%)', borderRadius: '50%' }} />
                                 <div style={{ position: 'absolute', width: 250, height: 250, bottom: '-10%', right: '-5%', background: 'radial-gradient(circle, rgba(160,80,255,0.15) 0%, transparent 70%)', borderRadius: '50%' }} />
                                 <div className="relative z-10 w-full max-w-sm">
-                                    <LoginFormEmbed />
+                                    <LoginFormEmbed theme={theme} />
                                 </div>
                             </div>
                         </Demo>
@@ -1093,12 +1271,12 @@ export default function UIKit() {
                     <Section id="header-template" title="Navigation Header" description="Floating glassmorphism navbar with translucent backdrop blur.">
                         <Demo title="Hero Preview" code={S.headerTemplate}>
                             <div className="py-16 px-4 md:px-8 relative w-full rounded-b-xl"
-                                style={{ background: 'linear-gradient(135deg, #0a0a14 0%, #121020 100%)', minHeight: 350, overflow: 'hidden' }}>
+                                style={{ background: theme.grad || `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bgEnd} 100%)`, minHeight: 350, overflow: 'hidden' }}>
                                 {/* Ambient glow */}
                                 <div style={{ position: 'absolute', width: 600, height: 400, top: '-50%', left: '50%', transform: 'translateX(-50%)', background: 'radial-gradient(circle, rgba(160,100,255,0.12) 0%, transparent 60%)', borderRadius: '50%' }} />
 
                                 <div className="relative z-10 w-full h-full flex flex-col">
-                                    <HeaderEmbed />
+                                    <HeaderEmbed theme={theme} />
 
                                     <div className="mt-16 text-center max-w-xl mx-auto">
                                         <h2 className="text-4xl font-bold text-white tracking-tight mb-4 drop-shadow-xl">Build Beautiful Interfaces</h2>
@@ -1112,11 +1290,11 @@ export default function UIKit() {
                     <Section id="dashboard-template" title="Dashboard Interface" description="A complete analytics dashboard layout featuring sidebar navigation and data cards.">
                         <Demo title="Web App Preview" code={S.dashboardTemplate}>
                             <div className="p-4 md:p-8 relative w-full rounded-b-xl flex items-center justify-center"
-                                style={{ background: 'linear-gradient(135deg, #0a0a14 0%, #121020 100%)', overflow: 'hidden' }}>
+                                style={{ background: theme.grad || `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bgEnd} 100%)`, overflow: 'hidden' }}>
                                 {/* Ambient glow */}
                                 <div style={{ position: 'absolute', width: 600, height: 400, top: '-50%', left: '-20%', background: 'radial-gradient(circle, rgba(100,140,255,0.1) 0%, transparent 60%)', borderRadius: '50%' }} />
 
-                                <DashboardEmbed />
+                                <DashboardEmbed theme={theme} />
                             </div>
                         </Demo>
                     </Section>
@@ -1125,8 +1303,8 @@ export default function UIKit() {
                     <Section id="pricing-template" title="Pricing Table" description="Flexible pricing tiers with highlighted 'Pro' features and glass accent borders.">
                         <Demo title="Subscription Preview" code={S.pricingTemplate}>
                             <div className="py-20 px-8 relative w-full rounded-b-xl"
-                                style={{ background: 'linear-gradient(135deg, #0a1122 0%, #050508 100%)', overflow: 'hidden' }}>
-                                <PricingEmbed />
+                                style={{ background: theme.grad || `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bgEnd} 100%)`, overflow: 'hidden' }}>
+                                <PricingEmbed theme={theme} />
                             </div>
                         </Demo>
                     </Section>
@@ -1135,8 +1313,8 @@ export default function UIKit() {
                     <Section id="testimonials-template" title="Social Proof" description="Elegant testimonial cards with avatar integration and ambient hover effects.">
                         <Demo title="User Reviews" code={S.testimonialsTemplate}>
                             <div className="py-20 px-8 relative w-full rounded-b-xl"
-                                style={{ background: 'linear-gradient(135deg, #0a0a14 0%, #121020 100%)', overflow: 'hidden' }}>
-                                <TestimonialsEmbed />
+                                style={{ background: theme.grad || `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bgEnd} 100%)`, overflow: 'hidden' }}>
+                                <TestimonialsEmbed theme={theme} />
                             </div>
                         </Demo>
                     </Section>
@@ -1145,8 +1323,8 @@ export default function UIKit() {
                     <Section id="footer-template" title="Site Branding" description="Deep-glass footer with column navigation and social connectivity.">
                         <Demo title="Footer Layout" code={S.footerTemplate}>
                             <div className="py-12 px-8 relative w-full rounded-b-xl"
-                                style={{ background: 'linear-gradient(135deg, #0a0a14 0%, #050508 100%)', overflow: 'hidden' }}>
-                                <FooterEmbed />
+                                style={{ background: theme.grad || `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bgEnd} 100%)`, overflow: 'hidden' }}>
+                                <FooterEmbed theme={theme} />
                             </div>
                         </Demo>
                     </Section>
@@ -1154,12 +1332,182 @@ export default function UIKit() {
                     <div className="h-20" />
                 </div>
             </main>
+
+            {/* ── Floating Customizer Toggle ── */}
+            <button
+                onClick={() => setShowCustomizer(!showCustomizer)}
+                className="fixed bottom-8 right-8 w-14 h-14 rounded-full z-[100] flex items-center justify-center cursor-pointer transition-all hover:scale-110 active:scale-95 group"
+                style={{
+                    background: 'rgba(255,255,255,0.06)',
+                    backdropFilter: 'blur(16px)',
+                    border: '1px solid rgba(255,255,255,0.18)',
+                    boxShadow: '0 20px 48px rgba(0,0,0,0.5)',
+                }}
+            >
+                <div className="absolute inset-0 rounded-full animate-ping bg-white/10 opacity-20 group-hover:block hidden" />
+                <Palette
+                    className={`w-7 h-7 transition-all duration-700 ${showCustomizer ? 'rotate-[360deg] scale-110' : ''}`}
+                    style={{
+                        filter: 'drop-shadow(0 0 8px rgba(120, 160, 255, 0.4))',
+                        stroke: 'url(#lucid-gradient)'
+                    }}
+                />
+                <svg width="0" height="0" className="absolute">
+                    <defs>
+                        <linearGradient id="lucid-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#22d3ee" />
+                            <stop offset="50%" stopColor="#3b82f6" />
+                            <stop offset="100%" stopColor="#a855f7" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </button>
+
+            {/* ── Customizer Panel (Real-time) ── */}
+            <AnimatePresence>
+                {showCustomizer && (
+                    <>
+                        {/* Panel */}
+                        <motion.div
+                            initial={{ x: '100%' }}
+                            animate={{ x: 0 }}
+                            exit={{ x: '100%' }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                            className="fixed right-0 top-0 bottom-0 w-80 z-[120] p-8 flex flex-col shadow-2xl overflow-y-auto custom-scrollbar"
+                            style={{
+                                background: 'rgba(15,15,30,0.92)',
+                                backdropFilter: 'blur(40px)',
+                                borderLeft: '1px solid rgba(255,255,255,0.1)',
+                            }}
+                        >
+                            <div className="flex items-center justify-between mb-10">
+                                <h3 className="text-xl font-bold text-white tracking-tight">Theme Config</h3>
+                                <button
+                                    onClick={() => setShowCustomizer(false)}
+                                    className="w-8 h-8 rounded-full flex items-center justify-center transition-all hover:bg-white/10 hover:rotate-90 active:scale-95 cursor-pointer group"
+                                    style={{ background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)' }}
+                                >
+                                    <X className="w-4 h-4 text-white/30 group-hover:text-white transition-colors" />
+                                </button>
+                            </div>
+
+                            <div className="space-y-10">
+                                {/* Presets Section */}
+                                <div className="space-y-4">
+                                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-400">Accent Colors</h4>
+                                    <div className="grid grid-cols-5 gap-3">
+                                        {[
+                                            { name: 'Original', c: 'linear-gradient(160deg, rgba(130, 160, 255, 0.45) 0%, rgba(160, 100, 255, 0.30) 100%)' },
+                                            { name: 'Lucid Blue', c: '#82a0ff' },
+                                            { name: 'Royal Purple', c: '#a064ff' },
+                                            { name: 'Emerald', c: '#22c55e' },
+                                            { name: 'Ruby', c: '#ef4444' },
+                                            { name: 'Cyber Pink', c: '#ff64b0' },
+                                            { name: 'Rose Gold', c: '#ffb3ba' }
+                                        ].map(preset => (
+                                            <button
+                                                key={preset.c}
+                                                onClick={() => setTheme({ ...theme, accent: preset.c })}
+                                                className={`aspect-square rounded-2xl border-2 transition-all ${theme.accent === preset.c ? 'border-white scale-105 shadow-[0_0_20px_rgba(255,255,255,0.2)]' : 'border-transparent opacity-50 hover:opacity-100'}`}
+                                                style={{ background: preset.c }}
+                                            />
+                                        ))}
+                                    </div>
+
+                                    {/* Custom Gradient Accent Picker */}
+                                    <div className="mt-6 flex gap-3">
+                                        <div className="flex-1 space-y-2">
+                                            <span className="text-[9px] font-bold text-white/30 uppercase tracking-widest pl-1">Start</span>
+                                            <div className="relative h-10 group/p1">
+                                                <input
+                                                    type="color"
+                                                    value={theme.accentStart}
+                                                    onChange={e => {
+                                                        const newStart = e.target.value;
+                                                        setTheme({ ...theme, accentStart: newStart, accent: `linear-gradient(160deg, ${newStart} 0%, ${theme.accentEnd} 100%)` })
+                                                    }}
+                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                                />
+                                                <div className="w-full h-full rounded-xl border border-white/20 group-hover/p1:border-white/40 transition-colors" style={{ background: theme.accentStart }} />
+                                            </div>
+                                        </div>
+                                        <div className="flex-1 space-y-2">
+                                            <span className="text-[9px] font-bold text-white/30 uppercase tracking-widest pl-1">End</span>
+                                            <div className="relative h-10 group/p2">
+                                                <input
+                                                    type="color"
+                                                    value={theme.accentEnd}
+                                                    onChange={e => {
+                                                        const newEnd = e.target.value;
+                                                        setTheme({ ...theme, accentEnd: newEnd, accent: `linear-gradient(160deg, ${theme.accentStart} 0%, ${newEnd} 100%)` })
+                                                    }}
+                                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                                />
+                                                <div className="w-full h-full rounded-xl border border-white/20 group-hover/p2:border-white/40 transition-colors" style={{ background: theme.accentEnd }} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Texture Section */}
+                                <div className="space-y-4">
+                                    <div className="flex items-center justify-between mt-4 px-1">
+                                        <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">Grainy Pattern</span>
+                                        <button
+                                            onClick={() => setTheme({ ...theme, pattern: !theme.pattern })}
+                                            className={`w-8 h-4 rounded-full relative transition-colors ${theme.pattern ? 'bg-blue-500' : 'bg-white/10'}`}>
+                                            <div className={`absolute top-0.5 w-3 h-3 rounded-full bg-white transition-all ${theme.pattern ? 'left-4.5' : 'left-0.5'}`} />
+                                        </button>
+                                    </div>
+                                </div>
+
+                                {/* Sliders Section */}
+                                <div className="space-y-6">
+                                    <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-purple-400">Glass Parameters</h4>
+
+                                    <div className="space-y-5">
+                                        {[
+                                            { label: 'Glass Blur', key: 'blur', min: 0, max: 180, suffix: 'px' },
+                                            { label: 'Saturation', key: 'saturation', min: 100, max: 400, suffix: '%' },
+                                            { label: 'Surface Opacity', key: 'opacity', min: 0.01, max: 0.20, mul: 100, suffix: '%' },
+                                            { label: 'Border Density', key: 'border', min: 0.05, max: 0.50, mul: 100, suffix: '%' },
+                                        ].map(s => (
+                                            <div key={s.key} className="space-y-2">
+                                                <div className="flex justify-between items-end">
+                                                    <span className="text-xs font-bold text-white/50">{s.label}</span>
+                                                    <span className="text-[10px] font-mono text-white/30">{s.mul ? Math.round(theme[s.key] * s.mul) : theme[s.key]}{s.suffix}</span>
+                                                </div>
+                                                <input
+                                                    type="range"
+                                                    min={s.min * (s.mul || 1)}
+                                                    max={s.max * (s.mul || 1)}
+                                                    value={theme[s.key] * (s.mul || 1)}
+                                                    onChange={e => setTheme({ ...theme, [s.key]: parseInt(e.target.value) / (s.mul || 1) })}
+                                                    className="w-full h-1 bg-white/10 rounded-full appearance-none cursor-pointer accent-white"
+                                                />
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+
+                                {/* Reset */}
+                                <button
+                                    onClick={() => setTheme({ blur: 80, saturation: 200, opacity: 0.04, border: 0.20, bg: '#0a0a14', bgEnd: '#0d0d1f', grad: 'linear-gradient(135deg, #0a0a14 0%, #0d0d1f 60%, #0a0a18 100%)', accent: 'linear-gradient(160deg, rgba(130, 160, 255, 0.45) 0%, rgba(160, 100, 255, 0.30) 100%)', pattern: true })}
+                                    className="w-full py-4 rounded-2xl bg-white/5 border border-white/10 text-white/40 text-[10px] font-black uppercase tracking-[0.25em] hover:bg-white/10 hover:text-white transition-all mt-10 active:scale-95"
+                                >
+                                    Reset to Defaults
+                                </button>
+                            </div>
+                        </motion.div>
+                    </>
+                )}
+            </AnimatePresence>
         </div>
     )
 }
 
 // ─── Inline login form (no full-screen wrapper) ────────────────────────
-function LoginFormEmbed() {
+function LoginFormEmbed({ theme }) {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [showPw, setShowPw] = useState(false)
@@ -1181,7 +1529,7 @@ function LoginFormEmbed() {
                 style={{ background: 'linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent)' }} />
             <div className="text-center mb-6">
                 <div className="w-12 h-12 rounded-xl mx-auto mb-4 flex items-center justify-center text-white"
-                    style={{ background: 'linear-gradient(135deg,rgba(100,140,255,0.3),rgba(160,100,255,0.3))', border: '1px solid rgba(255,255,255,0.15)', boxShadow: '0 8px 24px rgba(100,140,255,0.2)' }}>
+                    style={{ background: theme.accent.includes('linear') ? theme.accent : `${theme.accent}44`, border: '1px solid rgba(255,255,255,0.15)', boxShadow: `0 8px 24px ${theme.accent.includes('linear') ? 'rgba(100,140,255,0.2)' : `${theme.accent}33`}` }}>
                     🔐
                 </div>
                 <h3 className="text-xl font-semibold text-white mb-0.5">Welcome back</h3>
@@ -1215,7 +1563,7 @@ function EyeOff16() {
 }
 
 // ─── Inline Header template ─────────────────────────────
-function HeaderEmbed() {
+function HeaderEmbed({ theme }) {
     return (
         <motion.div initial={{ opacity: 0, y: -8 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}
             className="w-full max-w-5xl mx-auto h-16 rounded-2xl flex items-center justify-between px-8 relative shadow-sm"
@@ -1259,7 +1607,7 @@ function HeaderEmbed() {
 }
 
 // ─── Inline Dashboard template ─────────────────────────────
-function DashboardEmbed() {
+function DashboardEmbed({ theme }) {
     return (
         <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
             className="w-full max-w-4xl mx-auto h-[520px] flex rounded-3xl overflow-hidden relative shadow-2xl"
@@ -1279,7 +1627,7 @@ function DashboardEmbed() {
             <div className="w-56 h-full border-r flex flex-col p-5 relative z-10" style={{ borderColor: 'rgba(255,255,255,0.06)', background: 'rgba(255,255,255,0.01)' }}>
                 <div className="flex items-center gap-3 mb-10 px-2 cursor-pointer group">
                     <div className="w-8 h-8 rounded-xl flex items-center justify-center text-white shadow-lg transition-transform group-hover:scale-110"
-                        style={{ background: 'linear-gradient(135deg, rgba(100,140,255,0.6), rgba(160,100,255,0.6))', border: '1px solid rgba(255,255,255,0.2)' }}>
+                        style={{ background: theme.accent.includes('linear') ? theme.accent : theme.accent, opacity: 0.8, border: '1px solid rgba(255,255,255,0.2)' }}>
                         <svg className="w-4 h-4 text-white drop-shadow-md" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><polygon points="12 2 2 22 22 22"></polygon></svg>
                     </div>
                     <span className="font-bold text-base text-white tracking-wide">LucidApp</span>
@@ -1322,7 +1670,7 @@ function DashboardEmbed() {
                         <div className="w-px h-4 bg-white/10" />
                         <div className="relative">
                             <Bell className="w-4 h-4 text-white/40 cursor-pointer hover:text-white/80 transition-colors" />
-                            <div className="absolute -top-0.5 -right-0.5 w-2 h-2 bg-blue-500 rounded-full border border-[#0a0a14] shadow-sm shadow-blue-500/50" />
+                            <div className="absolute -top-0.5 -right-0.5 w-2 h-2 rounded-full shadow-sm" style={{ background: theme.accent.includes('linear') ? '#3b82f6' : theme.accent, border: `1px solid ${theme.bg}` }} />
                         </div>
                         <Avatar initials="JD" colorIndex={0} size="sm" status="online" />
                     </div>
@@ -1409,7 +1757,7 @@ function DashboardEmbed() {
     )
 }
 
-function PricingEmbed() {
+function PricingEmbed({ theme }) {
     const [annual, setAnnual] = useState(true);
 
     return (
@@ -1467,7 +1815,7 @@ function PricingEmbed() {
     )
 }
 
-function TestimonialsEmbed() {
+function TestimonialsEmbed({ theme }) {
     return (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full max-w-5xl mx-auto px-6 relative z-10">
             {/* Minimal Background Blur */}
@@ -1508,7 +1856,7 @@ function TestimonialsEmbed() {
     )
 }
 
-function FooterEmbed() {
+function FooterEmbed({ theme }) {
     return (
         <div className="w-full max-w-5xl mx-auto p-16 rounded-[3rem] border border-white/10 relative overflow-hidden group/footer"
             style={{

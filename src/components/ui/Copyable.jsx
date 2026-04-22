@@ -65,54 +65,57 @@ export function Copyable({ code, children, block = false }) {
             onMouseEnter={() => setHovered(true)}
             onMouseLeave={() => setHovered(false)}
         >
-            {/* ── "view code" hover label ──────────────────── */}
+            {/* ── "view code" hover trigger ────────────────── */}
             <AnimatePresence>
                 {hovered && !open && (
-                    <motion.div
-                        initial={{ opacity: 0, y: 5 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 3 }}
-                        transition={{ duration: 0.14 }}
-                        className="absolute z-50 pointer-events-none whitespace-nowrap"
+                    <motion.button
+                        initial={{ opacity: 0, y: 5, scale: 0.9 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 3, scale: 0.9 }}
+                        transition={{ duration: 0.12 }}
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            setOpen(true);
+                            setHovered(false); // Force hide hint immediately
+                        }}
+                        className="absolute z-[60] whitespace-nowrap cursor-pointer active:scale-95"
                         style={{ bottom: 'calc(100% + 6px)', left: '50%', transform: 'translateX(-50%)' }}
                     >
-                        <span className="flex items-center gap-1 px-2.5 py-1 rounded-lg text-xs"
+                        <span className="flex items-center gap-2 px-3 py-2 rounded-xl text-[10px] font-bold uppercase tracking-widest transition-all hover:bg-white/10"
                             style={{
-                                background: 'rgba(8,8,20,0.90)',
-                                border: '1px solid rgba(255,255,255,0.16)',
-                                color: 'rgba(255,255,255,0.55)',
-                                backdropFilter: 'blur(16px)',
-                                boxShadow: '0 8px 24px rgba(0,0,0,0.45), 0 1px 0 rgba(255,255,255,0.14) inset',
+                                background: 'rgba(8,8,20,0.95)',
+                                border: '1px solid rgba(255,255,255,0.25)',
+                                color: 'rgba(255,255,255,0.9)',
+                                backdropFilter: 'blur(20px)',
+                                boxShadow: '0 12px 40px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.15) inset',
                             }}>
-                            {/* Code icon */}
-                            <svg className="w-3 h-3 flex-shrink-0" viewBox="0 0 16 16" fill="none"
-                                stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                            <svg className="w-3.5 h-3.5 flex-shrink-0" viewBox="0 0 16 16" fill="none"
+                                stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                                 <path d="M5 4L1 8l4 4M11 4l4 4-4 4" />
                             </svg>
                             view code
                         </span>
-                        {/* Arrow */}
                         <div className="absolute top-full left-1/2 -translate-x-1/2"
                             style={{
                                 width: 0, height: 0,
-                                borderLeft: '5px solid transparent', borderRight: '5px solid transparent',
-                                borderTop: '5px solid rgba(255,255,255,0.16)'
+                                borderLeft: '6px solid transparent', borderRight: '6px solid transparent',
+                                borderTop: '6px solid rgba(255,255,255,0.25)'
                             }} />
-                    </motion.div>
+                    </motion.button>
                 )}
             </AnimatePresence>
 
             {/* ── The component itself ─────────────────────── */}
             <div
-                onClick={() => setOpen(v => !v)}
                 className={isChildDisabled ? "" : "cursor-pointer"}
                 style={{
                     borderRadius: '0.75rem',
                     outline: open
-                        ? '2px solid rgba(130,170,255,0.60)'
-                        : (hovered && !isChildDisabled) ? '2px solid rgba(255,255,255,0.22)' : '2px solid transparent',
+                        ? '2.5px solid rgba(130,170,255,0.70)'
+                        : (hovered && !isChildDisabled) ? '2px solid rgba(255,255,255,0.15)' : '2px solid transparent',
                     outlineOffset: '4px',
-                    transition: 'outline-color 0.15s ease',
+                    transition: 'all 0.15s ease',
+                    zIndex: open ? 50 : 1
                 }}
             >
                 {children}
@@ -125,86 +128,70 @@ export function Copyable({ code, children, block = false }) {
                         initial={{ opacity: 0, y: 12, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 8, scale: 0.97 }}
-                        transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
-                        className="absolute z-50"
+                        transition={{ duration: 0.2, ease: [0.22, 1, 0.36, 1] }}
+                        className="absolute z-[100]"
                         style={{
-                            bottom: 'calc(100% + 12px)',
+                            bottom: 'calc(100% + 15px)',
                             left: '50%', transform: 'translateX(-50%)',
-                            minWidth: '220px', width: 'max-content', maxWidth: '90vw',
+                            minWidth: '280px', width: 'max-content', maxWidth: '650px',
                         }}
                         onClick={e => e.stopPropagation()}
                     >
-                        {/* Glass popover */}
-                        <div className="rounded-2xl overflow-hidden"
+                        <div className="rounded-2xl overflow-hidden shadow-2xl"
                             style={{
-                                background: 'rgba(5,5,14,0.92)',
+                                background: 'rgba(5,5,12,0.94)',
                                 backdropFilter: 'blur(40px) saturate(200%)',
-                                border: '1px solid rgba(255,255,255,0.18)',
-                                boxShadow: [
-                                    '0 28px 70px rgba(0,0,0,0.70)',
-                                    '0 2px 0 rgba(255,255,255,0.20) inset',
-                                ].join(', '),
+                                border: '1px solid rgba(255,255,255,0.2)',
+                                boxShadow: '0 32px 80px rgba(0,0,0,0.8), 0 2px 0 rgba(255,255,255,0.15) inset',
                             }}>
 
                             {/* Header row */}
-                            <div className="flex items-center justify-between px-3.5 py-2 border-b"
-                                style={{ borderColor: 'rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.03)' }}>
-                                <div className="flex items-center gap-1.5">
-                                    <span className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,92,92,0.55)' }} />
-                                    <span className="w-2 h-2 rounded-full" style={{ background: 'rgba(255,185,0,0.55)' }} />
-                                    <span className="w-2 h-2 rounded-full" style={{ background: 'rgba(40,205,65,0.55)' }} />
-                                    <span className="ml-1 text-xs font-mono" style={{ color: 'rgba(255,255,255,0.22)' }}>jsx</span>
+                            <div className="flex items-center justify-between px-4 py-2.5 border-b"
+                                style={{ borderColor: 'rgba(255,255,255,0.08)', background: 'rgba(255,255,255,0.04)' }}>
+                                <div className="flex items-center gap-2">
+                                    <div className="flex gap-1">
+                                        <span className="w-2.5 h-2.5 rounded-full" style={{ background: 'rgba(255,95,87,0.6)' }} />
+                                        <span className="w-2.5 h-2.5 rounded-full" style={{ background: 'rgba(255,189,46,0.6)' }} />
+                                        <span className="w-2.5 h-2.5 rounded-full" style={{ background: 'rgba(39,201,63,0.6)' }} />
+                                    </div>
+                                    <span className="ml-1 text-[10px] font-mono font-bold tracking-widest opacity-30 uppercase">jsx</span>
                                 </div>
                                 <motion.button
                                     onClick={copy}
-                                    whileHover={{ scale: 1.07 }} whileTap={{ scale: 0.93 }}
-                                    className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg text-xs font-medium cursor-pointer"
+                                    whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}
+                                    className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest cursor-pointer transition-colors"
                                     style={{
-                                        background: copied ? 'rgba(34,197,94,0.14)' : 'rgba(255,255,255,0.07)',
-                                        border: `1px solid ${copied ? 'rgba(134,239,172,0.30)' : 'rgba(255,255,255,0.12)'}`,
-                                        color: copied ? 'rgba(134,239,172,0.92)' : 'rgba(255,255,255,0.52)',
-                                        boxShadow: '0 1px 0 rgba(255,255,255,0.10) inset',
-                                        transition: 'all 0.18s ease',
+                                        background: copied ? 'rgba(34,197,94,0.15)' : 'rgba(255,255,255,0.06)',
+                                        border: `1px solid ${copied ? 'rgba(34,197,94,0.3)' : 'rgba(255,255,255,0.1)'}`,
+                                        color: copied ? '#4ade80' : 'rgba(255,255,255,0.4)',
                                     }}>
-                                    <AnimatePresence mode="wait">
-                                        <motion.span key={copied ? 'ck' : 'cp'}
-                                            initial={{ scale: 0.6, opacity: 0 }}
-                                            animate={{ scale: 1, opacity: 1 }}
-                                            exit={{ scale: 0.6, opacity: 0 }}
-                                            transition={{ duration: 0.14 }}>
-                                            {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
-                                        </motion.span>
-                                    </AnimatePresence>
-                                    {copied ? 'Copied!' : 'Copy'}
+                                    {copied ? <Check className="w-3 h-3" /> : <Copy className="w-3 h-3" />}
+                                    {copied ? 'COPIED' : 'COPY'}
                                 </motion.button>
                             </div>
 
-                            {/* Code */}
-                            <pre className="px-4 py-3.5 text-xs leading-relaxed overflow-x-auto"
+                            {/* Code body */}
+                            <pre className="px-4 py-4 text-[11px] leading-relaxed overflow-x-auto m-0"
                                 style={{
-                                    fontFamily: "'SF Mono','Fira Code','Cascadia Code',monospace",
-                                    color: 'rgba(210,222,242,0.88)', margin: 0,
+                                    fontFamily: "'SF Mono', Menlo, monospace",
+                                    color: 'rgba(210,222,242,0.9)',
                                 }}>
                                 <code dangerouslySetInnerHTML={{ __html: hl(code) }} />
                             </pre>
                         </div>
 
                         {/* Arrow pointing down */}
-                        <div className="absolute top-full left-1/2 -translate-x-1/2"
-                            style={{
-                                width: 0, height: 0,
-                                borderLeft: '9px solid transparent', borderRight: '9px solid transparent',
-                                borderTop: '9px solid rgba(255,255,255,0.18)', marginTop: '-1px'
-                            }} />
+                        <div className="absolute top-full left-1/2 -translate-x-1/2 -mt-px w-0 h-0 border-l-[10px] border-l-transparent border-r-[10px] border-r-transparent border-t-[10px]"
+                            style={{ borderTopColor: 'rgba(255,255,255,0.2)' }} />
 
-                        {/* Token colours */}
+                        {/* Token highlights */}
                         <style>{`
-              i[c]        { font-style: normal; }
-              i[c="tag"]  { color: rgba(130,195,255,0.96); }
-              i[c="str"]  { color: rgba(134,239,172,0.93); }
-              i[c="prop"] { color: rgba(251,191,36,0.93);  }
-              i[c="cmt"]  { color: rgba(255,255,255,0.28); }
-            `}</style>
+                            i[c]        { font-style: normal; }
+                            i[c="tag"]  { color: rgba(130,195,255,1); }
+                            i[c="str"]  { color: rgba(134,239,172,1); }
+                            i[c="prop"] { color: rgba(251,191,36,1);  }
+                            i[c="cmt"]  { color: rgba(255,255,255,0.3); }
+                        `}</style>
                     </motion.div>
                 )}
             </AnimatePresence>

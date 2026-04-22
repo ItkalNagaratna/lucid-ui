@@ -11,20 +11,20 @@ const SIZES = {
 }
 const VARIANTS = {
     primary: {
-        background: 'linear-gradient(160deg, rgba(120,155,255,0.42) 0%, rgba(155,95,255,0.28) 100%)',
+        background: 'var(--accent-color)',
         border: '1px solid rgba(255,255,255,0.28)',
         boxShadow: '0 8px 32px rgba(100,140,255,0.28), 0 2px 0 rgba(255,255,255,0.52) inset, 0 -1px 0 rgba(0,0,0,0.18) inset',
-        color: 'rgba(255,255,255,0.96)',
-        backdropFilter: 'blur(24px) saturate(200%)',
-        ripple: 'rgba(200,215,255,0.5)',
+        color: 'white',
+        backdropFilter: 'blur(var(--glass-blur)) saturate(var(--glass-saturation))',
+        ripple: 'rgba(255,255,255,0.4)',
         gloss: true,
     },
     secondary: {
-        background: 'rgba(255,255,255,0.05)',
+        background: 'rgba(255,255,255,var(--glass-opacity))',
         border: '1px solid rgba(255,255,255,0.18)',
         boxShadow: '0 4px 20px rgba(0,0,0,0.25), 0 1px 0 rgba(255,255,255,0.35) inset',
         color: 'rgba(255,255,255,0.82)',
-        backdropFilter: 'blur(24px) saturate(180%)',
+        backdropFilter: 'blur(calc(var(--glass-blur) * 0.5)) saturate(var(--glass-saturation))',
         ripple: 'rgba(255,255,255,0.25)',
         gloss: false,
     },

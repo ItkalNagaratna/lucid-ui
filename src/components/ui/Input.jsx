@@ -172,8 +172,8 @@ export function Input({
                         /* Liquid Glass */
                         background: s.bg,
                         border: `1px solid ${s.border}`,
-                        backdropFilter: 'blur(28px) saturate(200%)',
-                        WebkitBackdropFilter: 'blur(28px) saturate(200%)',
+                        backdropFilter: 'blur(var(--glass-blur)) saturate(var(--glass-saturation))',
+                        WebkitBackdropFilter: 'blur(var(--glass-blur)) saturate(var(--glass-saturation))',
                         /* Specular inset + drop shadow */
                         boxShadow: [
                             `0 1.5px 0 rgba(255,255,255,${focused ? '0.28' : '0.10'}) inset`,

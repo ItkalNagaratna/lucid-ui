@@ -1,6 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
 @import "tailwindcss";
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+:root {
+  /* Default Lucid Theme (Legacy/Old Defaults) */
+  --glass-blur: 80px;
+  --glass-saturation: 200%;
+  --glass-opacity: 0.04;
+  --glass-border: 0.20;
+  --accent-color: linear-gradient(160deg, rgba(130, 160, 255, 0.45) 0%, rgba(160, 100, 255, 0.30) 100%);
+  --bg-start: #0a0a14;
+  --bg-end: #0d0d1f;
+}
 
 * {
   box-sizing: border-box;
@@ -10,6 +20,9 @@
 body {
   margin: 0;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: linear-gradient(135deg, var(--bg-start) 0%, var(--bg-end) 50%, #0a0a18 100%);
+  color: white;
+  min-height: 100vh;
 }
 
 /* ── Orb Animations ─────────────────────────────────── */
@@ -187,10 +200,10 @@ body {
 
 /* ── Main Glass Card ─────────────────────────────────── */
 .glass-card {
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(80px) saturate(200%);
-  -webkit-backdrop-filter: blur(80px) saturate(200%);
-  border: 1px solid rgba(255, 255, 255, 0.20);
+  background: rgba(255, 255, 255, var(--glass-opacity));
+  backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+  border: 1px solid rgba(255, 255, 255, var(--glass-border));
   box-shadow:
     0 48px 120px rgba(0, 0, 0, 0.55),
     0 12px 40px rgba(0, 0, 0, 0.30),
@@ -202,7 +215,7 @@ body {
 
 /* ── Glass Input ─────────────────────────────────────── */
 .glass-input {
-  background: rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, var(--glass-opacity));
   border: 1px solid rgba(255, 255, 255, 0.13);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
@@ -229,9 +242,7 @@ body {
 
 /* ── Primary Action Button ───────────────────────────── */
 .btn-primary {
-  background: linear-gradient(160deg,
-      rgba(130, 160, 255, 0.45) 0%,
-      rgba(160, 100, 255, 0.30) 100%);
+  background: var(--accent-color);
   border: 1px solid rgba(255, 255, 255, 0.25);
   box-shadow:
     0 8px 32px rgba(100, 140, 255, 0.25),
@@ -299,7 +310,7 @@ body {
 }
 
 /* ── Noise texture ────────────────────────────────────── */
-.noise::after {
+.grain-overlay::after {
   content: '';
   position: absolute;
   inset: 0;
@@ -307,6 +318,7 @@ body {
   pointer-events: none;
   border-radius: inherit;
   opacity: 0.4;
+  z-index: 99;
 }
 
 /* ── Date input — hide native calendar icon, keep picker working ──── */

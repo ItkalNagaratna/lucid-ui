@@ -29,8 +29,8 @@ export function Badge({ children, color = 'purple', size = 'md', dot = false, ou
                 background: outline ? 'transparent' : c.bg,
                 border: `1px solid ${c.border}`,
                 color: c.text,
-                backdropFilter: 'blur(12px) saturate(180%)',
-                WebkitBackdropFilter: 'blur(12px) saturate(180%)',
+                backdropFilter: 'blur(calc(var(--glass-blur) * 0.15)) saturate(var(--glass-saturation))',
+                WebkitBackdropFilter: 'blur(calc(var(--glass-blur) * 0.15)) saturate(var(--glass-saturation))',
                 boxShadow: `0 1px 0 rgba(255,255,255,0.20) inset, 0 2px 8px rgba(0,0,0,0.20)`,
             }}
         >

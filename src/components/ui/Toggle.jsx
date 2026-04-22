@@ -17,11 +17,11 @@ export function Toggle({ checked = false, onChange, label, disabled = false, siz
                 style={{
                     width: t.w, height: t.h,
                     background: checked
-                        ? 'linear-gradient(160deg, rgba(130,165,255,0.7) 0%, rgba(155,100,255,0.5) 100%)'
+                        ? 'var(--accent-color)'
                         : 'rgba(255,255,255,0.02)',
                     border: checked ? '1px solid rgba(220,230,255,0.45)' : '1px solid rgba(255,255,255,0.12)',
-                    backdropFilter: 'blur(30px) saturate(220%)',
-                    WebkitBackdropFilter: 'blur(30px) saturate(220%)',
+                    backdropFilter: 'blur(calc(var(--glass-blur) * 0.4)) saturate(var(--glass-saturation))',
+                    WebkitBackdropFilter: 'blur(calc(var(--glass-blur) * 0.4)) saturate(var(--glass-saturation))',
                     boxShadow: checked
                         ? '0 0 28px rgba(100,150,255,0.45), 0 1px 0 rgba(255,255,255,0.5) inset'
                         : '0 1px 0 rgba(255,255,255,0.15) inset, 0 4px 10px rgba(0,0,0,0.3)',
