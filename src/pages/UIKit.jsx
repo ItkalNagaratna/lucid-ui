@@ -734,7 +734,7 @@ const PALETTE = [
 ]
 
 export default function UIKit() {
-    const [activeSection, setActiveSection] = useState('colors')
+    const [activeSection, setActiveSection] = useState('global-styles')
     const [checkStates, setCheckStates] = useState({ a: false, b: true, c: false })
     const [toggleStates, setToggleStates] = useState({ notifications: true, darkMode: false, autoSave: true })
     const contentRef = useRef(null)
