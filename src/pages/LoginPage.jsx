@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Eye, EyeOff, Mail, Lock, Droplet } from 'lucide-react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 function GithubLogo() {
     return (
@@ -46,12 +46,14 @@ export default function LoginPage() {
     const [rememberMe, setRememberMe] = useState(false)
     const [isLoading, setIsLoading] = useState(false)
     const [activeField, setActiveField] = useState(null)
+    const navigate = useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault()
         setIsLoading(true)
         await new Promise(r => setTimeout(r, 1800))
         setIsLoading(false)
+        navigate('/uikit')
     }
 
     return (
@@ -93,7 +95,7 @@ export default function LoginPage() {
             </div>
 
             {/* UI Kit link */}
-            <Link to="/ui-kit"
+            <Link to="/uikit"
                 className="absolute top-5 right-5 z-10 flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium transition-all duration-200 hover:scale-105"
                 style={{ background: 'rgba(255,255,255,0.07)', border: '1px solid rgba(255,255,255,0.12)', color: 'rgba(255,255,255,0.6)', backdropFilter: 'blur(10px)' }}>
                 <span>Component Library</span>

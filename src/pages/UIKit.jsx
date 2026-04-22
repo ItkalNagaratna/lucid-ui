@@ -19,6 +19,11 @@ import LoginPage from './LoginPage'
 // ─── Sidebar nav config ────────────────────────────────────────────────
 const NAV = [
     {
+        group: 'Introduction', items: [
+            { id: 'overview', label: 'Overview', icon: '✨' },
+        ]
+    },
+    {
         group: 'Foundation', items: [
             { id: 'global-styles', label: 'Global Styles', icon: '🎨' },
             { id: 'colors', label: 'Colors', icon: '🌈' },
@@ -734,7 +739,7 @@ const PALETTE = [
 ]
 
 export default function UIKit() {
-    const [activeSection, setActiveSection] = useState('global-styles')
+    const [activeSection, setActiveSection] = useState('overview')
     const [checkStates, setCheckStates] = useState({ a: false, b: true, c: false })
     const [toggleStates, setToggleStates] = useState({ notifications: true, darkMode: false, autoSave: true })
     const contentRef = useRef(null)
@@ -815,7 +820,7 @@ export default function UIKit() {
         <div className={`flex h-screen overflow-hidden transition-colors duration-700 ${theme.pattern ? 'grain-overlay' : ''}`} style={themeStyles}>
 
             {/* ── Sidebar ── */}
-            <aside className="w-60 flex-shrink-0 flex flex-col h-full overflow-y-auto"
+            <aside className="w-60 flex-shrink-0 flex flex-col h-full"
                 style={{ background: 'rgba(255,255,255,0.035)', borderRight: '1px solid rgba(255,255,255,0.08)', backdropFilter: 'blur(20px)' }}>
 
                 {/* Brand */}
@@ -828,7 +833,7 @@ export default function UIKit() {
                 </div>
 
                 {/* Nav groups */}
-                <nav className="flex-1 px-3 py-4 space-y-5">
+                <nav className="flex-1 overflow-y-auto px-3 py-4 space-y-5">
                     {NAV.map(({ group, items }) => (
                         <div key={group}>
                             <p className="px-2 mb-1.5 text-xs font-semibold uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.25)' }}>{group}</p>
@@ -867,7 +872,7 @@ export default function UIKit() {
             {/* ── Main content ── */}
             <main ref={contentRef} className="flex-1 overflow-y-auto">
                 {/* Top bar */}
-                <header className="sticky top-0 z-10 px-8 py-4 flex items-center justify-between"
+                <header className="sticky top-0 z-30 px-8 py-4 flex items-center justify-between"
                     style={{ background: 'rgba(10,10,20,0.8)', borderBottom: '1px solid rgba(255,255,255,0.07)', backdropFilter: 'blur(20px)' }}>
                     <div>
                         <h1 className="text-base font-semibold text-white">Component Library</h1>
@@ -881,6 +886,90 @@ export default function UIKit() {
 
                 {/* Content area */}
                 <div className="px-10 py-12 max-w-7xl mx-auto w-full">
+
+                    {/* ── CINEMATIC OVERVIEW ── */}
+                    <div id="overview" className="mb-32 relative scroll-mt-32">
+                        {/* Soft ambient background glows */}
+                        <div className="absolute -top-32 -left-24 w-[500px] h-[500px] bg-blue-600/5 rounded-full blur-[120px] pointer-events-none" />
+                        <div className="absolute top-20 -right-24 w-[400px] h-[400px] bg-purple-600/5 rounded-full blur-[100px] pointer-events-none" />
+
+                        <motion.div
+                            initial={{ opacity: 0, y: 30 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+                            className="relative z-10"
+                        >
+                            <Badge color="blue" outline size="sm" className="mb-8">Documentation — Version 1.0</Badge>
+
+                            <h1 className="text-4xl font-bold text-white tracking-tighter mb-6 leading-tight">
+                                Lucid UI: The Architecture <br />
+                                of Cinematic Depth.
+                            </h1>
+
+                            <p className="text-lg max-w-3xl leading-relaxed text-white/40 mb-10 font-medium">
+                                A high-performance design system built for the next generation of spatial web interfaces.
+                                We combine physical refraction with performant glassmorphism to create
+                                deep, immersive digital environments.
+                            </p>
+
+                            <button
+                                onClick={() => scrollTo('login-form')}
+                                className="flex items-center gap-2 text-sm font-bold text-blue-400 hover:text-blue-300 transition-colors cursor-pointer group mb-14"
+                            >
+                                Explore Template Library
+                                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            </button>
+
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 bg-white/[0.02] border border-white/5 rounded-[2.5rem] p-10 backdrop-blur-3xl shadow-2xl">
+                                <div className="space-y-12">
+                                    <section>
+                                        <div className="flex items-center gap-3 mb-4">
+                                            <div className="w-8 h-8 rounded-lg bg-blue-500/10 flex items-center justify-center text-blue-400">
+                                                <Sparkles className="w-4 h-4" />
+                                            </div>
+                                            <h3 className="text-white font-bold text-sm uppercase tracking-widest">How it works</h3>
+                                        </div>
+                                        <p className="text-sm leading-relaxed text-white/30">
+                                            Lucid UI utilizes dynamic CSS variables to control a "Living Glass" engine.
+                                            By mapping theme tokens to backdrop filters and specular gradients,
+                                            components react in real-time to background data, light sources, and user interaction.
+                                        </p>
+                                    </section>
+
+                                    <section>
+                                        <div className="flex items-center gap-3 mb-4">
+                                            <div className="w-8 h-8 rounded-lg bg-purple-500/10 flex items-center justify-center text-purple-400">
+                                                <Globe className="w-4 h-4" />
+                                            </div>
+                                            <h3 className="text-white font-bold text-sm uppercase tracking-widest">About this App</h3>
+                                        </div>
+                                        <p className="text-sm leading-relaxed text-white/30">
+                                            This application acts as the definitive manifest for the Lucid UI framework.
+                                            It's a living environment where developers can test components, manipulate
+                                            theme variables, and extract production-ready code directly into their projects.
+                                        </p>
+                                    </section>
+                                </div>
+
+                                <div className="hidden lg:block border-l border-white/5 pl-12">
+                                    <h3 className="text-white font-bold text-sm mb-8 uppercase tracking-widest">Key Principles</h3>
+                                    <div className="space-y-8">
+                                        {[
+                                            { t: 'Sub-Pixel Precision', d: 'Borders and refractions rendered at sub-pixel levels for retina clarity.' },
+                                            { t: 'Contextual Awareness', d: 'Components that adapt their transparency and blur based on environment.' },
+                                            { t: 'Atomic Scalability', d: 'Architecture designed for everything from small modals to full dashboards.' }
+                                        ].map((principle, idx) => (
+                                            <div key={idx} className="group cursor-default">
+                                                <div className="text-white font-bold text-xs mb-2 transition-colors group-hover:text-blue-400">{principle.t}</div>
+                                                <div className="text-[11px] text-white/20 leading-relaxed">{principle.d}</div>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+                        </motion.div>
+                    </div>
 
                     {/* ── GLOBAL STYLES ── */}
                     <Section id="global-styles" title="Global Styles" description="The core CSS required for the Lucid UI glassmorphism effects and animations.">
@@ -1254,7 +1343,7 @@ export default function UIKit() {
 
                     {/* ── LOGIN FORM TEMPLATE ── */}
                     <Section id="login-form" title="Login Form" description="Full authentication form template — ready to use.">
-                        <Demo title="Full Page Preview" code={S.loginTemplate} deps={['Card', 'Button', 'Input', 'Checkbox']}>
+                        <Demo title="Login Form" code={S.loginTemplate} deps={['Card', 'Button', 'Input', 'Checkbox']}>
                             <div className="flex items-center justify-center py-10 px-4 w-full rounded-b-xl"
                                 style={{ background: theme.grad || `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bgEnd} 100%)`, minHeight: 400, position: 'relative', overflow: 'hidden' }}>
                                 {/* Mini orbs for context */}
@@ -1269,7 +1358,7 @@ export default function UIKit() {
 
                     {/* ── HEADER TEMPLATE ── */}
                     <Section id="header-template" title="Navigation Header" description="Floating glassmorphism navbar with translucent backdrop blur.">
-                        <Demo title="Hero Preview" code={S.headerTemplate}>
+                        <Demo title="Hero Preview" code={S.headerTemplate} deps={['Button', 'Avatar', 'Badge']}>
                             <div className="py-16 px-4 md:px-8 relative w-full rounded-b-xl"
                                 style={{ background: theme.grad || `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bgEnd} 100%)`, minHeight: 350, overflow: 'hidden' }}>
                                 {/* Ambient glow */}
@@ -1288,7 +1377,7 @@ export default function UIKit() {
                     </Section>
                     {/* ── DASHBOARD TEMPLATE ── */}
                     <Section id="dashboard-template" title="Dashboard Interface" description="A complete analytics dashboard layout featuring sidebar navigation and data cards.">
-                        <Demo title="Web App Preview" code={S.dashboardTemplate}>
+                        <Demo title="Web App Preview" code={S.dashboardTemplate} deps={['Card', 'Button', 'Badge', 'Avatar', 'Progress']}>
                             <div className="p-4 md:p-8 relative w-full rounded-b-xl flex items-center justify-center"
                                 style={{ background: theme.grad || `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bgEnd} 100%)`, overflow: 'hidden' }}>
                                 {/* Ambient glow */}
@@ -1301,7 +1390,7 @@ export default function UIKit() {
 
                     {/* ── PRICING TEMPLATE ── */}
                     <Section id="pricing-template" title="Pricing Table" description="Flexible pricing tiers with highlighted 'Pro' features and glass accent borders.">
-                        <Demo title="Subscription Preview" code={S.pricingTemplate}>
+                        <Demo title="Subscription Preview" code={S.pricingTemplate} deps={['Card', 'Button', 'Badge']}>
                             <div className="py-20 px-8 relative w-full rounded-b-xl"
                                 style={{ background: theme.grad || `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bgEnd} 100%)`, overflow: 'hidden' }}>
                                 <PricingEmbed theme={theme} />
@@ -1311,7 +1400,7 @@ export default function UIKit() {
 
                     {/* ── TESTIMONIALS TEMPLATE ── */}
                     <Section id="testimonials-template" title="Social Proof" description="Elegant testimonial cards with avatar integration and ambient hover effects.">
-                        <Demo title="User Reviews" code={S.testimonialsTemplate}>
+                        <Demo title="User Reviews" code={S.testimonialsTemplate} deps={['Card', 'Avatar']}>
                             <div className="py-20 px-8 relative w-full rounded-b-xl"
                                 style={{ background: theme.grad || `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bgEnd} 100%)`, overflow: 'hidden' }}>
                                 <TestimonialsEmbed theme={theme} />
@@ -1321,7 +1410,7 @@ export default function UIKit() {
 
                     {/* ── FOOTER TEMPLATE ── */}
                     <Section id="footer-template" title="Site Branding" description="Deep-glass footer with column navigation and social connectivity.">
-                        <Demo title="Footer Layout" code={S.footerTemplate}>
+                        <Demo title="Footer Layout" code={S.footerTemplate} deps={['Button', 'Input']}>
                             <div className="py-12 px-8 relative w-full rounded-b-xl"
                                 style={{ background: theme.grad || `linear-gradient(135deg, ${theme.bg} 0%, ${theme.bgEnd} 100%)`, overflow: 'hidden' }}>
                                 <FooterEmbed theme={theme} />
