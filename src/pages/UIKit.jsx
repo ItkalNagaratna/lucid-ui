@@ -1435,7 +1435,7 @@ export default function UIKit() {
             >
                 <div className="absolute inset-0 rounded-full animate-ping bg-white/10 opacity-20 group-hover:block hidden" />
                 <Palette
-                    className={`w-7 h-7 transition-all duration-700 ${showCustomizer ? 'rotate-[360deg] scale-110' : ''}`}
+                    className={`w-7 h-7 transition-all duration-500 group-hover:rotate-[30deg] ${showCustomizer ? 'rotate-[360deg] scale-110' : ''}`}
                     style={{
                         filter: 'drop-shadow(0 0 8px rgba(120, 160, 255, 0.4))',
                         stroke: 'url(#lucid-gradient)'
